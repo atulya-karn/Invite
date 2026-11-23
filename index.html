@@ -46,7 +46,7 @@
     }
 
     /* ============================================================
-       CENTERED 480PX STAGE FRAME (CONSISTENT ON MOBILE & DESKTOP)
+       CENTERED 480PX STAGE FRAME (PARCHMENT + PRE-BLURRED ROSES)
        ============================================================ */
     #stage-frame {
       position: fixed;
@@ -86,20 +86,20 @@
 
     .ambient-rose {
       position: absolute;
-      width: 180px;
+      width: 185px;
       height: auto;
-      opacity: 0.62;
+      opacity: 0.66;
       will-change: transform;
       user-select: none;
     }
     .ambient-rose.tl { top: -38px; left: -46px; transform-origin: 20% 20%; }
     .ambient-rose.tr { top: -34px; right: -46px; transform-origin: 80% 20%; }
-    .ambient-rose.ml { top: 44%; left: -74px; width: 150px; opacity: 0.5; }
-    .ambient-rose.mr { top: 56%; right: -74px; width: 150px; opacity: 0.5; }
+    .ambient-rose.ml { top: 44%; left: -72px; width: 155px; opacity: 0.54; }
+    .ambient-rose.mr { top: 56%; right: -72px; width: 155px; opacity: 0.54; }
     .ambient-rose.bl { bottom: -44px; left: -46px; transform-origin: 20% 80%; }
     .ambient-rose.br { bottom: -44px; right: -46px; transform-origin: 80% 80%; }
 
-    /* Hanging Marigold Strings at Top (z: 2, strictly below main z: 10) */
+    /* Hanging Marigold Strings — ALWAYS IN FRONT OF PAGE ELEMENTS (z: 30) */
     #marigold-bar {
       position: fixed;
       top: calc(-6px + env(safe-area-inset-top, 0px));
@@ -107,8 +107,8 @@
       transform: translateX(-50%);
       width: 100%;
       max-width: 480px;
-      height: 108px;
-      z-index: 2;
+      height: 112px;
+      z-index: 30;
       pointer-events: none;
       display: flex;
       justify-content: space-between;
@@ -116,16 +116,17 @@
       opacity: 0;
       transition: opacity 0.9s ease;
     }
-    #marigold-bar.visible { opacity: 0.92; }
+    #marigold-bar.visible { opacity: 1; }
 
     .marigold-strand {
       width: 34px;
       height: auto;
       transform-origin: top center;
       will-change: transform;
+      filter: drop-shadow(0 4px 6px rgba(78, 19, 32, 0.18));
     }
-    .marigold-strand.short { height: 74px; object-fit: contain; object-position: top; }
-    .marigold-strand.tall { height: 104px; object-fit: contain; object-position: top; }
+    .marigold-strand.short { height: 70px; object-fit: contain; object-position: top; }
+    .marigold-strand.tall { height: 102px; object-fit: contain; object-position: top; }
 
     /* Falling Petals Canvas (z: 25) */
     #petal-canvas {
@@ -149,7 +150,9 @@
       padding: 9px 14px;
       border-radius: 999px;
       border: 1px solid rgba(201, 163, 91, 0.72);
-      background: rgba(110, 31, 47, 0.93);
+      background: rgba(110, 31, 47, 0.92);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
       color: var(--gold-light);
       font-family: var(--font-body);
       font-size: 11px;
@@ -390,7 +393,7 @@
     }
 
     /* ============================================================
-       MAIN CONTINUOUS INVITATION COLUMN (z: 10, ABOVE ALL ROSES)
+       MAIN CONTINUOUS INVITATION COLUMN (z: 10) + GLASS SECTIONS
        ============================================================ */
     main.invitation-content {
       position: relative;
@@ -403,11 +406,34 @@
 
     section.band {
       position: relative;
-      padding: 54px 20px;
+      padding: 26px 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
+    }
+
+    /* Frosted Glassmorphism Section Surface */
+    .glass-panel {
+      width: 100%;
+      max-width: 404px;
+      padding: 30px 18px;
+      border-radius: 28px;
+      background: linear-gradient(155deg, rgba(255, 252, 249, 0.58) 0%, rgba(250, 239, 237, 0.38) 100%);
+      -webkit-backdrop-filter: blur(14px) saturate(135%);
+      backdrop-filter: blur(14px) saturate(135%);
+      border: 1px solid rgba(255, 255, 255, 0.74);
+      box-shadow:
+        0 14px 36px rgba(110, 31, 47, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        inset 0 0 0 1px rgba(201, 163, 91, 0.24);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .glass-panel.carousel-panel {
+      padding-left: 10px;
+      padding-right: 10px;
     }
 
     .eyebrow {
@@ -444,14 +470,14 @@
     }
 
     /* ============================================================
-       2. FIRST PAGE (1 SCREEN, NEVER CUT EVEN IN WHATSAPP WEBVIEW)
+       2. FIRST PAGE (1 SCREEN, GLASS ARCH FRAME, GARLAND CLEARANCE)
        ============================================================ */
     #sec-hero {
       height: 100vh;
       height: 100svh;
       min-height: 480px;
       max-height: 920px;
-      padding: calc(clamp(34px, 6.5vh, 56px) + env(safe-area-inset-top, 0px)) 18px clamp(14px, 2.8vh, 24px);
+      padding: calc(clamp(54px, 9.5vh, 84px) + env(safe-area-inset-top, 0px)) 18px clamp(14px, 2.8vh, 24px);
       justify-content: center;
       overflow: hidden;
     }
@@ -461,12 +487,16 @@
       width: 100%;
       max-width: 356px;
       height: 100%;
-      max-height: 660px;
-      border-radius: 190px 190px 26px 26px;
+      max-height: 650px;
+      border-radius: 190px 190px 28px 28px;
       border: 1.5px solid rgba(201, 163, 91, 0.88);
       padding: 8px;
-      box-shadow: 0 22px 46px rgba(110, 31, 47, 0.13);
-      background: rgba(255, 250, 245, 0.42);
+      box-shadow:
+        0 22px 46px rgba(110, 31, 47, 0.13),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+      background: linear-gradient(160deg, rgba(255, 252, 249, 0.54) 0%, rgba(250, 239, 237, 0.34) 100%);
+      -webkit-backdrop-filter: blur(12px) saturate(130%);
+      backdrop-filter: blur(12px) saturate(130%);
       display: flex;
       flex-direction: column;
     }
@@ -475,7 +505,7 @@
       position: relative;
       flex: 1;
       border-radius: 182px 182px 20px 20px;
-      border: 1px solid rgba(201, 163, 91, 0.42);
+      border: 1px solid rgba(201, 163, 91, 0.44);
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -484,7 +514,6 @@
       padding: clamp(14px, 3vh, 30px) 16px clamp(12px, 2.2vh, 20px);
     }
 
-    /* Pre-blurred Photo #1 slowly zooming behind names */
     .hero-bg-wrap {
       position: absolute;
       inset: -8%;
@@ -496,7 +525,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.36;
+      opacity: 0.4;
       display: block;
     }
     .hero-bg-photo.fallback-blur {
@@ -514,9 +543,9 @@
       inset: 0;
       z-index: 1;
       background: linear-gradient(180deg,
-        rgba(251, 246, 241, 0.82) 0%,
-        rgba(251, 246, 241, 0.62) 50%,
-        rgba(249, 240, 238, 0.86) 100%);
+        rgba(251, 246, 241, 0.72) 0%,
+        rgba(251, 246, 241, 0.5) 50%,
+        rgba(249, 240, 238, 0.78) 100%);
     }
 
     .hero-body {
@@ -622,8 +651,8 @@
        ============================================================ */
     .scroll-wrap {
       width: 100%;
-      max-width: 344px;
-      margin-top: 22px;
+      max-width: 340px;
+      margin-top: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -657,7 +686,7 @@
       width: 90%;
       max-height: 22px;
       overflow: hidden;
-      background: linear-gradient(180deg, #fffbf6 0%, #f9ece8 100%);
+      background: linear-gradient(180deg, rgba(255, 251, 246, 0.94) 0%, rgba(249, 236, 232, 0.92) 100%);
       border-left: 1.5px solid rgba(201, 163, 91, 0.75);
       border-right: 1.5px solid rgba(201, 163, 91, 0.75);
       box-shadow: 0 14px 32px rgba(110, 31, 47, 0.14);
@@ -771,7 +800,7 @@
       55% { transform: translate3d(0, 7px, 0); }
     }
 
-    /* Strictly Post-Reveal Countdown & Calendar Container (0fr -> 1fr) */
+    /* Strictly Post-Reveal Countdown & Single Add to Calendar Button */
     #save-date-post-reveal {
       width: 100%;
       display: grid;
@@ -789,14 +818,14 @@
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
-      margin-top: 22px;
+      margin-top: 20px;
     }
     .post-reveal-inner {
       overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 13px;
       padding: 4px 0 6px;
     }
 
@@ -808,9 +837,9 @@
       flex-wrap: nowrap;
       padding: 11px 16px;
       border-radius: 999px;
-      background: rgba(255, 251, 246, 0.92);
+      background: rgba(255, 252, 248, 0.78);
       border: 1px solid rgba(201, 163, 91, 0.65);
-      box-shadow: 0 8px 22px rgba(110, 31, 47, 0.09);
+      box-shadow: 0 8px 22px rgba(110, 31, 47, 0.08);
       font-size: 12.5px;
       color: var(--wine);
       font-weight: 600;
@@ -824,20 +853,12 @@
     }
     .countdown-line span.dot { color: var(--gold); }
 
-    .cal-btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 9px;
-      width: 100%;
-    }
-
     .btn-gold {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 7px;
-      padding: 11px 18px;
+      padding: 12px 22px;
       border-radius: 999px;
       border: 1px solid var(--gold);
       background: linear-gradient(135deg, var(--wine) 0%, var(--wine-deep) 100%);
@@ -845,7 +866,7 @@
       font-family: var(--font-body);
       font-size: 11px;
       font-weight: 600;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.13em;
       text-transform: uppercase;
       text-decoration: none;
       cursor: pointer;
@@ -854,7 +875,7 @@
     }
     .btn-gold:active { transform: scale(0.97); }
     .btn-outline {
-      background: rgba(255, 251, 246, 0.92);
+      background: rgba(255, 252, 248, 0.8);
       color: var(--wine);
       box-shadow: 0 6px 16px rgba(110, 31, 47, 0.08);
     }
@@ -865,7 +886,7 @@
     .carousel-shell {
       position: relative;
       width: 100%;
-      margin-top: 22px;
+      margin-top: 20px;
       user-select: none;
       touch-action: pan-y;
     }
@@ -886,25 +907,26 @@
       position: absolute;
       top: 10px;
       left: 50%;
-      width: min(74vw, 276px);
+      width: min(74vw, 274px);
       height: 360px;
-      margin-left: calc(min(74vw, 276px) / -2);
+      margin-left: calc(min(74vw, 274px) / -2);
       border-radius: 22px;
       overflow: hidden;
-      border: 1.5px solid rgba(201, 163, 91, 0.72);
-      background: #fffaf4;
-      box-shadow: 0 18px 38px rgba(78, 19, 32, 0.18);
+      border: 1.5px solid rgba(201, 163, 91, 0.78);
+      background: #2b1318;
+      box-shadow: 0 18px 38px rgba(78, 19, 32, 0.2);
       transition: transform 0.48s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.48s ease;
       will-change: transform, opacity;
       cursor: pointer;
     }
-    .c-card.story-card { height: 344px; background: #fffbf6; }
+    .c-card.story-card { height: 344px; background: rgba(255, 251, 246, 0.92); }
 
     .c-card[data-pos="0"]  { transform: translate3d(0, 0, 0) scale(1); opacity: 1; z-index: 5; }
     .c-card[data-pos="-1"] { transform: translate3d(-64%, 10px, -90px) scale(0.84) rotateY(14deg); opacity: 0.52; z-index: 3; }
     .c-card[data-pos="1"]  { transform: translate3d(64%, 10px, -90px) scale(0.84) rotateY(-14deg); opacity: 0.52; z-index: 3; }
     .c-card[data-pos="hidden"] { transform: translate3d(0, 20px, -180px) scale(0.7); opacity: 0; z-index: 1; pointer-events: none; }
 
+    /* Blurred illustrated / photographic scene inside each festivity card */
     .event-bg {
       position: absolute;
       inset: 0;
@@ -914,20 +936,26 @@
       z-index: 0;
       pointer-events: none;
     }
+    .event-bg.fallback-blur {
+      filter: blur(5px);
+      -webkit-filter: blur(5px);
+      transform: scale(1.08);
+    }
+    /* Light atmospheric scrim so the blurred artwork stays clearly visible */
     .event-scrim {
       position: absolute;
       inset: 0;
       z-index: 1;
       background: linear-gradient(180deg,
-        rgba(255, 250, 245, 0.76) 0%,
-        rgba(255, 248, 243, 0.84) 55%,
-        rgba(255, 247, 242, 0.94) 100%);
+        rgba(38, 12, 18, 0.14) 0%,
+        rgba(38, 12, 18, 0.28) 45%,
+        rgba(32, 10, 16, 0.54) 100%);
     }
     .event-content {
       position: relative;
       z-index: 2;
       height: 100%;
-      padding: 22px 18px;
+      padding: 20px 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -938,32 +966,48 @@
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      background: rgba(255, 250, 245, 0.92);
-      border: 1px solid rgba(201, 163, 91, 0.75);
+      background: rgba(255, 250, 245, 0.88);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      border: 1.2px solid rgba(234, 210, 156, 0.9);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 6px 16px rgba(110, 31, 47, 0.12);
+      box-shadow: 0 8px 18px rgba(32, 10, 16, 0.25);
       animation: iconBob 3.2s ease-in-out infinite;
     }
     @keyframes iconBob {
       0%,100% { transform: translate3d(0, 0, 0); }
       50% { transform: translate3d(0, -4px, 0); }
     }
+    .event-glass-box {
+      width: 100%;
+      padding: 14px 12px;
+      border-radius: 16px;
+      background: rgba(255, 250, 245, 0.72);
+      -webkit-backdrop-filter: blur(10px) saturate(130%);
+      backdrop-filter: blur(10px) saturate(130%);
+      border: 1px solid rgba(255, 255, 255, 0.65);
+      box-shadow: 0 8px 20px rgba(38, 12, 18, 0.16);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
     .event-name {
       font-family: var(--font-display);
-      font-size: 1.5rem;
+      font-size: 1.42rem;
       font-weight: 700;
       color: var(--wine);
-      margin-top: 6px;
+      line-height: 1.15;
     }
     .event-meta {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      font-size: 12.5px;
+      gap: 4px;
+      font-size: 12px;
       color: var(--ink);
-      line-height: 1.45;
+      line-height: 1.4;
     }
     .event-meta strong { color: var(--wine); font-weight: 600; }
     .dress-row {
@@ -972,11 +1016,14 @@
       gap: 8px;
       padding: 7px 14px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.88);
-      border: 1px solid rgba(201, 163, 91, 0.55);
+      background: rgba(255, 251, 246, 0.88);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(201, 163, 91, 0.7);
       font-size: 11px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--ink);
+      box-shadow: 0 6px 14px rgba(38, 12, 18, 0.18);
     }
     .swatch {
       width: 13px;
@@ -1005,7 +1052,7 @@
       font-size: 14px;
       line-height: 1.38;
       color: var(--wine);
-      background: linear-gradient(180deg, #fffbf6 0%, #f8ece9 100%);
+      background: linear-gradient(180deg, rgba(255, 251, 246, 0.92) 0%, rgba(248, 236, 233, 0.96) 100%);
     }
 
     .carousel-nav {
@@ -1020,7 +1067,7 @@
       height: 34px;
       border-radius: 50%;
       border: 1px solid rgba(201, 163, 91, 0.72);
-      background: rgba(255, 251, 246, 0.9);
+      background: rgba(255, 251, 246, 0.82);
       color: var(--wine);
       font-size: 16px;
       cursor: pointer;
@@ -1041,27 +1088,29 @@
     .dot-btn.active { width: 20px; background: var(--wine); }
 
     /* ============================================================
-       6. GRAND RECEPTION
+       6. GRAND RECEPTION (DEEP WINE GLASS CARD)
        ============================================================ */
     .reception-card {
       position: relative;
       width: 100%;
-      max-width: 360px;
-      border-radius: 26px;
+      max-width: 404px;
+      border-radius: 28px;
       padding: 36px 24px;
       overflow: hidden;
       background:
-        radial-gradient(circle at 20% 15%, rgba(164, 52, 74, 0.45), transparent 55%),
-        linear-gradient(150deg, #772234 0%, #6e1f2f 48%, #47101c 100%);
+        radial-gradient(circle at 20% 15%, rgba(164, 52, 74, 0.52), transparent 55%),
+        linear-gradient(150deg, rgba(119, 34, 52, 0.92) 0%, rgba(110, 31, 47, 0.88) 48%, rgba(71, 16, 28, 0.94) 100%);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
       border: 1.5px solid var(--gold);
-      box-shadow: 0 22px 46px rgba(78, 19, 32, 0.3);
+      box-shadow: 0 22px 46px rgba(78, 19, 32, 0.3), inset 0 1px 0 rgba(255, 238, 200, 0.35);
       color: var(--gold-light);
     }
     .reception-card::before {
       content: '';
       position: absolute;
       inset: 10px;
-      border-radius: 18px;
+      border-radius: 20px;
       border: 1px solid rgba(234, 210, 156, 0.34);
       pointer-events: none;
       z-index: 1;
@@ -1113,13 +1162,13 @@
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
       margin: 4px 0;
     }
-    .rec-detail { font-size: 13px; line-height: 1.65; color: rgba(255, 245, 223, 0.9); }
+    .rec-detail { font-size: 13px; line-height: 1.65; color: rgba(255, 245, 223, 0.92); }
     .rec-pill {
       margin-top: 4px;
       padding: 7px 16px;
       border-radius: 999px;
       border: 1px solid rgba(234, 210, 156, 0.55);
-      background: rgba(255, 245, 223, 0.08);
+      background: rgba(255, 245, 223, 0.1);
       font-size: 11px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -1132,18 +1181,18 @@
     .map-card {
       width: 100%;
       max-width: 360px;
-      margin-top: 20px;
+      margin-top: 16px;
       border-radius: 22px;
       overflow: hidden;
       border: 1.5px solid rgba(201, 163, 91, 0.72);
-      background: rgba(255, 251, 246, 0.94);
-      box-shadow: 0 18px 36px rgba(110, 31, 47, 0.12);
+      background: rgba(255, 252, 248, 0.72);
+      box-shadow: 0 14px 32px rgba(110, 31, 47, 0.1);
     }
     .map-visual {
       display: block;
       position: relative;
       width: 100%;
-      height: 210px;
+      height: 205px;
       background: linear-gradient(155deg, #f8eee7 0%, #f1e1dc 100%);
       overflow: hidden;
       text-decoration: none;
@@ -1169,7 +1218,7 @@
       text-transform: uppercase;
     }
     .map-info {
-      padding: 18px 18px 20px;
+      padding: 18px 16px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1190,7 +1239,7 @@
       gap: 10px;
       width: 100%;
     }
-    .map-actions .btn-gold { flex: 1 1 138px; padding: 11px 14px; font-size: 11px; }
+    .map-actions .btn-gold { flex: 1 1 134px; padding: 11px 14px; font-size: 11px; }
 
     /* ============================================================
        8. CLOSING
@@ -1230,7 +1279,7 @@
 </head>
 <body class="locked">
 
-  <!-- Centered 480px Fixed Stage Frame (keeps pillars & roses aligned on all screens) -->
+  <!-- Centered 480px Fixed Stage Frame (Parchment + Pre-Blurred Roses behind text) -->
   <div id="stage-frame" aria-hidden="true">
     <div id="card-backdrop"></div>
     <div id="ambient-roses">
@@ -1243,7 +1292,7 @@
     </div>
   </div>
 
-  <!-- Hanging Marigold Garlands (z: 2) -->
+  <!-- Hanging Marigold Garlands (z: 30 — ALWAYS IN FRONT OF PAGE ELEMENTS) -->
   <div id="marigold-bar" aria-hidden="true">
     <img class="marigold-strand tall" data-garland alt="" />
     <img class="marigold-strand short" data-garland alt="" />
@@ -1296,7 +1345,7 @@
   <!-- MAIN CONTINUOUS INVITATION CONTENT (z: 10) -->
   <main class="invitation-content">
 
-    <!-- 2. FIRST PAGE (1 SCREEN, NEVER CUT EVEN IN WHATSAPP WEBVIEW) -->
+    <!-- 2. FIRST PAGE (EXACTLY 1 SCREEN, GLASS ARCH FRAME) -->
     <section class="band" id="sec-hero">
       <div class="hero-arch">
         <div class="hero-arch-inner">
@@ -1324,91 +1373,88 @@
       </div>
     </section>
 
-    <!-- 3. SAVE THE DATE (PULL TO REVEAL + POST-REVEAL COUNTDOWN) -->
+    <!-- 3. SAVE THE DATE (GLASS SECTION + PULL TO REVEAL + POST-REVEAL COUNTDOWN) -->
     <section class="band" id="sec-save-date">
-      <div class="reveal-el">
+      <div class="glass-panel reveal-el">
         <div class="eyebrow" id="txt-save-eyebrow"></div>
         <h2 class="section-title" id="txt-save-title"></h2>
         <p class="section-sub" id="txt-save-sub"></p>
-      </div>
 
-      <div class="scroll-wrap reveal-el">
-        <div class="gold-rod"></div>
-        <div class="scroll-paper" id="scroll-paper">
-          <img class="scroll-corner-rose tl" data-rose="blurredSoft" alt="" />
-          <img class="scroll-corner-rose br" data-rose="blurredSoft" alt="" />
-          <div class="scroll-inner">
-            <img class="scroll-ganesh" data-ganesh alt="Ganesh ji" />
-            <div class="scroll-day" id="sd-day"></div>
-            <div class="scroll-date-main" id="sd-date"></div>
-            <div class="scroll-pheras" id="sd-pheras"></div>
-            <div class="scroll-venue-short" id="sd-venue"></div>
-          </div>
-        </div>
-        <div class="scroll-bottom-rod"></div>
-
-        <div class="tassel-zone" id="tassel-zone" role="button" tabindex="0" aria-label="Pull or tap tassel to reveal wedding date">
-          <div class="tassel-cord"></div>
-          <div class="tassel-bead"></div>
-          <div class="tassel-skirt"></div>
-        </div>
-
-        <div class="pull-hint" id="pull-hint">
-          <span class="finger-anim">👇</span>
-          <span id="txt-pull-hint">Pull or tap tassel to reveal</span>
-        </div>
-
-        <!-- Strictly hidden (0fr) until date is revealed -->
-        <div id="save-date-post-reveal" aria-hidden="true">
-          <div class="post-reveal-inner">
-            <div class="countdown-line" id="countdown-line">
-              <span><strong id="cd-d">00</strong><span class="unit">days</span></span>
-              <span class="dot">·</span>
-              <span><strong id="cd-h">00</strong><span class="unit">hrs</span></span>
-              <span class="dot">·</span>
-              <span><strong id="cd-m">00</strong><span class="unit">min</span></span>
-              <span class="dot">·</span>
-              <span><strong id="cd-s">00</strong><span class="unit">sec</span></span>
+        <div class="scroll-wrap">
+          <div class="gold-rod"></div>
+          <div class="scroll-paper" id="scroll-paper">
+            <img class="scroll-corner-rose tl" data-rose="blurredSoft" alt="" />
+            <img class="scroll-corner-rose br" data-rose="blurredSoft" alt="" />
+            <div class="scroll-inner">
+              <img class="scroll-ganesh" data-ganesh alt="Ganesh ji" />
+              <div class="scroll-day" id="sd-day"></div>
+              <div class="scroll-date-main" id="sd-date"></div>
+              <div class="scroll-pheras" id="sd-pheras"></div>
+              <div class="scroll-venue-short" id="sd-venue"></div>
             </div>
-            <div class="cal-btn-row">
-              <a class="btn-gold" id="gcal-btn" target="_blank" rel="noopener noreferrer" tabindex="-1">Google Calendar</a>
-              <button class="btn-gold btn-outline" id="add-cal-btn" type="button" tabindex="-1">Apple / .ics</button>
+          </div>
+          <div class="scroll-bottom-rod"></div>
+
+          <div class="tassel-zone" id="tassel-zone" role="button" tabindex="0" aria-label="Pull or tap tassel to reveal wedding date">
+            <div class="tassel-cord"></div>
+            <div class="tassel-bead"></div>
+            <div class="tassel-skirt"></div>
+          </div>
+
+          <div class="pull-hint" id="pull-hint">
+            <span class="finger-anim">👇</span>
+            <span id="txt-pull-hint">Pull or tap tassel to reveal</span>
+          </div>
+
+          <!-- Strictly hidden (0fr) until date is revealed -->
+          <div id="save-date-post-reveal" aria-hidden="true">
+            <div class="post-reveal-inner">
+              <div class="countdown-line" id="countdown-line">
+                <span><strong id="cd-d">00</strong><span class="unit">days</span></span>
+                <span class="dot">·</span>
+                <span><strong id="cd-h">00</strong><span class="unit">hrs</span></span>
+                <span class="dot">·</span>
+                <span><strong id="cd-m">00</strong><span class="unit">min</span></span>
+                <span class="dot">·</span>
+                <span><strong id="cd-s">00</strong><span class="unit">sec</span></span>
+              </div>
+              <button class="btn-gold" id="add-cal-btn" type="button" tabindex="-1">Add to Calendar</button>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 4. WEDDING FESTIVITIES -->
+    <!-- 4. WEDDING FESTIVITIES (GLASS SECTION + BLURRED SCENE IMAGE CARDS) -->
     <section class="band" id="sec-festivities">
-      <div class="reveal-el">
+      <div class="glass-panel carousel-panel reveal-el">
         <div class="eyebrow" id="txt-fest-eyebrow"></div>
         <h2 class="section-title" id="txt-fest-title"></h2>
         <p class="section-sub" id="txt-fest-sub"></p>
-      </div>
-      <div class="carousel-shell reveal-el" id="fest-carousel">
-        <div class="carousel-stage" id="fest-stage"></div>
-        <div class="carousel-nav">
-          <button class="nav-arrow" data-prev aria-label="Previous event">‹</button>
-          <div class="dots" id="fest-dots"></div>
-          <button class="nav-arrow" data-next aria-label="Next event">›</button>
+        <div class="carousel-shell" id="fest-carousel">
+          <div class="carousel-stage" id="fest-stage"></div>
+          <div class="carousel-nav">
+            <button class="nav-arrow" data-prev aria-label="Previous event">‹</button>
+            <div class="dots" id="fest-dots"></div>
+            <button class="nav-arrow" data-next aria-label="Next event">›</button>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 5. OUR STORY -->
+    <!-- 5. OUR STORY (GLASS SECTION) -->
     <section class="band" id="sec-story">
-      <div class="reveal-el">
+      <div class="glass-panel carousel-panel reveal-el">
         <div class="eyebrow" id="txt-story-eyebrow"></div>
         <h2 class="section-title" id="txt-story-title"></h2>
         <p class="section-sub" id="txt-story-sub"></p>
-      </div>
-      <div class="carousel-shell reveal-el" id="story-carousel">
-        <div class="carousel-stage story-stage" id="story-stage"></div>
-        <div class="carousel-nav">
-          <button class="nav-arrow" data-prev aria-label="Previous photo">‹</button>
-          <div class="dots" id="story-dots"></div>
-          <button class="nav-arrow" data-next aria-label="Next photo">›</button>
+        <div class="carousel-shell" id="story-carousel">
+          <div class="carousel-stage story-stage" id="story-stage"></div>
+          <div class="carousel-nav">
+            <button class="nav-arrow" data-prev aria-label="Previous photo">‹</button>
+            <div class="dots" id="story-dots"></div>
+            <button class="nav-arrow" data-next aria-label="Next photo">›</button>
+          </div>
         </div>
       </div>
     </section>
@@ -1434,56 +1480,56 @@
       </div>
     </section>
 
-    <!-- 7. LOCATION -->
+    <!-- 7. LOCATION (GLASS SECTION) -->
     <section class="band" id="sec-location">
-      <div class="reveal-el">
+      <div class="glass-panel reveal-el">
         <div class="eyebrow" id="txt-loc-eyebrow"></div>
         <h2 class="section-title" id="txt-loc-title"></h2>
-      </div>
-      <div class="map-card reveal-el">
-        <a class="map-visual" id="map-link-card" target="_blank" rel="noopener noreferrer" aria-label="Open venue in Google Maps">
-          <svg class="map-svg" viewBox="0 0 360 210" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="roadG" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#c9a35b"/>
-                <stop offset="100%" stop-color="#6e1f2f"/>
-              </linearGradient>
-            </defs>
-            <rect width="360" height="210" fill="#f7ede8"/>
-            <path d="M-10,160 Q90,120 175,148 T370,118" fill="none" stroke="#ead8d0" stroke-width="18" stroke-linecap="round"/>
-            <path d="M55,-10 Q95,95 148,220" fill="none" stroke="#ead8d0" stroke-width="14"/>
-            <path d="M220,-10 Q255,105 298,220" fill="none" stroke="#ead8d0" stroke-width="12"/>
-            <ellipse cx="92" cy="64" rx="34" ry="20" fill="#e5ebdf"/>
-            <ellipse cx="290" cy="158" rx="40" ry="22" fill="#e5ebdf"/>
-            <g transform="translate(226, 38)" opacity="0.88">
-              <path d="M4,34 L4,18 Q22,2 40,18 L40,34 Z" fill="#f3dfc0" stroke="#946f2e" stroke-width="1.2"/>
-              <path d="M14,34 L14,22 Q22,14 30,22 L30,34 Z" fill="#6e1f2f" opacity="0.22"/>
-              <circle cx="22" cy="7" r="2.5" fill="#c9a35b"/>
-            </g>
-            <path d="M44,174 C86,158 106,120 148,118 C192,116 206,86 248,72"
-                  fill="none" stroke="url(#roadG)" stroke-width="3.2" stroke-linecap="round" class="route-dash"/>
-            <circle cx="44" cy="174" r="5" fill="#c9a35b" stroke="#fff" stroke-width="2"/>
-            <circle cx="248" cy="72" r="10" fill="rgba(110,31,47,0.22)" class="pin-pulse"/>
-            <path d="M248,46 C239,46 233,53 233,61 C233,72 248,84 248,84 C248,84 263,72 263,61 C263,53 257,46 248,46 Z"
-                  fill="#6e1f2f" stroke="#ead29c" stroke-width="1.6"/>
-            <circle cx="248" cy="60" r="4.5" fill="#ead29c"/>
-          </svg>
-          <span class="map-tap-badge">Open Map ↗</span>
-        </a>
-        <div class="map-info">
-          <div class="venue-name" id="loc-venue-name"></div>
-          <div class="venue-addr" id="loc-venue-addr"></div>
-          <div class="map-actions">
-            <a class="btn-gold" id="btn-directions" target="_blank" rel="noopener noreferrer">Get Directions</a>
-            <button class="btn-gold btn-outline" id="btn-copy-addr" type="button">Copy Address</button>
+        <div class="map-card">
+          <a class="map-visual" id="map-link-card" target="_blank" rel="noopener noreferrer" aria-label="Open venue in Google Maps">
+            <svg class="map-svg" viewBox="0 0 360 210" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="roadG" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#c9a35b"/>
+                  <stop offset="100%" stop-color="#6e1f2f"/>
+                </linearGradient>
+              </defs>
+              <rect width="360" height="210" fill="#f7ede8"/>
+              <path d="M-10,160 Q90,120 175,148 T370,118" fill="none" stroke="#ead8d0" stroke-width="18" stroke-linecap="round"/>
+              <path d="M55,-10 Q95,95 148,220" fill="none" stroke="#ead8d0" stroke-width="14"/>
+              <path d="M220,-10 Q255,105 298,220" fill="none" stroke="#ead8d0" stroke-width="12"/>
+              <ellipse cx="92" cy="64" rx="34" ry="20" fill="#e5ebdf"/>
+              <ellipse cx="290" cy="158" rx="40" ry="22" fill="#e5ebdf"/>
+              <g transform="translate(226, 38)" opacity="0.88">
+                <path d="M4,34 L4,18 Q22,2 40,18 L40,34 Z" fill="#f3dfc0" stroke="#946f2e" stroke-width="1.2"/>
+                <path d="M14,34 L14,22 Q22,14 30,22 L30,34 Z" fill="#6e1f2f" opacity="0.22"/>
+                <circle cx="22" cy="7" r="2.5" fill="#c9a35b"/>
+              </g>
+              <path d="M44,174 C86,158 106,120 148,118 C192,116 206,86 248,72"
+                    fill="none" stroke="url(#roadG)" stroke-width="3.2" stroke-linecap="round" class="route-dash"/>
+              <circle cx="44" cy="174" r="5" fill="#c9a35b" stroke="#fff" stroke-width="2"/>
+              <circle cx="248" cy="72" r="10" fill="rgba(110,31,47,0.22)" class="pin-pulse"/>
+              <path d="M248,46 C239,46 233,53 233,61 C233,72 248,84 248,84 C248,84 263,72 263,61 C263,53 257,46 248,46 Z"
+                    fill="#6e1f2f" stroke="#ead29c" stroke-width="1.6"/>
+              <circle cx="248" cy="60" r="4.5" fill="#ead29c"/>
+            </svg>
+            <span class="map-tap-badge">Open Map ↗</span>
+          </a>
+          <div class="map-info">
+            <div class="venue-name" id="loc-venue-name"></div>
+            <div class="venue-addr" id="loc-venue-addr"></div>
+            <div class="map-actions">
+              <a class="btn-gold" id="btn-directions" target="_blank" rel="noopener noreferrer">Get Directions</a>
+              <button class="btn-gold btn-outline" id="btn-copy-addr" type="button">Copy Address</button>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 8. CLOSING -->
+    <!-- 8. CLOSING (GLASS SECTION) -->
     <section class="band" id="sec-closing">
-      <div class="reveal-el">
+      <div class="glass-panel reveal-el">
         <img class="closing-ganesh" data-ganesh alt="Ganesh ji" />
         <p class="closing-msg" id="txt-closing-msg"></p>
         <p class="closing-family" id="txt-closing-family"></p>
@@ -1519,6 +1565,8 @@
         mapsUrl: 'https://maps.google.com/?q=Amer+Road+Jaipur+Rajasthan'
       },
 
+      /* Optional: add a custom image URL/base64 in bgImage for any function,
+         or leave '' to use the built-in blurred illustrated scenes. */
       functions: [
         {
           id: 'matapujan',
@@ -1528,7 +1576,8 @@
           place: 'Sharma Residence Courtyard',
           dressCode: 'Traditional',
           colourName: 'Beige',
-          swatch: '#d9c5a7'
+          swatch: '#d9c5a7',
+          bgImage: ''
         },
         {
           id: 'haldi',
@@ -1538,7 +1587,8 @@
           place: 'Poolside Marigold Lawn',
           dressCode: 'Wear Yellow',
           colourName: 'Yellow',
-          swatch: '#f2c230'
+          swatch: '#f2c230',
+          bgImage: ''
         },
         {
           id: 'mehendi',
@@ -1548,7 +1598,8 @@
           place: 'Jharokha Garden Pavilion',
           dressCode: 'Wear Green',
           colourName: 'Green',
-          swatch: '#4f8c5a'
+          swatch: '#4f8c5a',
+          bgImage: ''
         },
         {
           id: 'sangeet',
@@ -1558,7 +1609,8 @@
           place: 'Grand Darbar Ballroom',
           dressCode: 'Indo-Western',
           colourName: 'Purple & Pink',
-          swatch: 'linear-gradient(135deg,#7e3b8a 50%,#e06b9b 50%)'
+          swatch: 'linear-gradient(135deg,#7e3b8a 50%,#e06b9b 50%)',
+          bgImage: ''
         },
         {
           id: 'pheras',
@@ -1568,7 +1620,8 @@
           place: 'The Royal Heritage Mandap',
           dressCode: 'Festive',
           colourName: 'Red & Gold',
-          swatch: 'linear-gradient(135deg,#a31f2e 50%,#d4af37 50%)'
+          swatch: 'linear-gradient(135deg,#a31f2e 50%,#d4af37 50%)',
+          bgImage: ''
         }
       ],
 
@@ -1769,7 +1822,7 @@
         }
       }
       ctx.putImageData(imgData, 0, 0);
-      return format === 'jpeg' ? c.toDataURL('image/jpeg', 0.82) : c.toDataURL('image/png');
+      return format === 'jpeg' ? c.toDataURL('image/jpeg', 0.84) : c.toDataURL('image/png');
     }
 
     function bakeGanesh() {
@@ -1926,51 +1979,45 @@
       return c;
     }
 
-    /* Fluted ivory pillars + bottom filigree + pastel floral border (no background arch) */
+    /* Clean luminous pearl-blush parchment + pastel floral border (NO pillars, NO arch) */
     function bakeCardBackground() {
       const w = 480, h = 860;
       const c = mkCanvas(w, h);
       const ctx = c.getContext('2d');
 
-      const bg = ctx.createRadialGradient(w * 0.5, h * 0.46, 40, w * 0.5, h * 0.5, h * 0.65);
-      bg.addColorStop(0, '#fdf9f6');
-      bg.addColorStop(0.62, '#f7ecea');
-      bg.addColorStop(1, '#ebd9db');
+      const bg = ctx.createRadialGradient(w * 0.5, h * 0.44, 40, w * 0.5, h * 0.5, h * 0.68);
+      bg.addColorStop(0, '#fdf8f5');
+      bg.addColorStop(0.58, '#f6e7e6');
+      bg.addColorStop(1, '#e8cfd4');
       ctx.fillStyle = bg;
       ctx.fillRect(0, 0, w, h);
 
-      ctx.save();
-      ctx.lineWidth = 1.6;
-
-      [20, w - 56].forEach((px) => {
-        ctx.fillStyle = 'rgba(255, 250, 247, 0.52)';
-        ctx.strokeStyle = 'rgba(201, 163, 91, 0.22)';
-        ctx.fillRect(px, 66, 36, h - 126);
-        ctx.strokeRect(px, 66, 36, h - 126);
-
-        ctx.strokeStyle = 'rgba(182, 152, 145, 0.22)';
-        for (let f = 8; f < 32; f += 8) {
-          ctx.beginPath();
-          ctx.moveTo(px + f, 76);
-          ctx.lineTo(px + f, h - 70);
-          ctx.stroke();
-        }
-
-        ctx.fillStyle = 'rgba(246, 234, 226, 0.72)';
-        ctx.strokeStyle = 'rgba(201, 163, 91, 0.28)';
-        ctx.fillRect(px - 6, 52, 48, 14);
-        ctx.strokeRect(px - 6, 52, 48, 14);
+      // Subtle warm rose-gold bokeh glow spots for glass panels to refract
+      [
+        [w * 0.18, h * 0.22, 130, 'rgba(228, 178, 188, 0.26)'],
+        [w * 0.84, h * 0.38, 150, 'rgba(234, 202, 148, 0.24)'],
+        [w * 0.22, h * 0.72, 145, 'rgba(216, 174, 204, 0.22)'],
+        [w * 0.8, h * 0.82, 130, 'rgba(228, 178, 188, 0.24)']
+      ].forEach(([bx, by, br, col]) => {
+        const rg = ctx.createRadialGradient(bx, by, 5, bx, by, br);
+        rg.addColorStop(0, col);
+        rg.addColorStop(1, 'transparent');
+        ctx.fillStyle = rg;
+        ctx.fillRect(0, 0, w, h);
       });
 
-      ctx.fillStyle = 'rgba(201, 163, 91, 0.14)';
-      ctx.fillRect(0, h - 40, w, 40);
-      ctx.strokeStyle = 'rgba(201, 163, 91, 0.35)';
+      // Delicate bottom filigree lace band
+      ctx.save();
+      ctx.fillStyle = 'rgba(201, 163, 91, 0.12)';
+      ctx.fillRect(0, h - 38, w, 38);
+      ctx.strokeStyle = 'rgba(201, 163, 91, 0.34)';
       ctx.lineWidth = 1.2;
       for (let x = 14; x < w; x += 26) {
-        ctx.beginPath(); ctx.arc(x, h - 20, 9, 0, Math.PI * 2); ctx.stroke();
+        ctx.beginPath(); ctx.arc(x, h - 19, 9, 0, Math.PI * 2); ctx.stroke();
       }
       ctx.restore();
 
+      // Soft pastel floral perimeter blurred cleanly across all devices
       const fl = mkCanvas(240, 430);
       const fctx = fl.getContext('2d');
       const p1 = ['#fff9f7', '#efd5dc', '#cfa3b2', '#9e6b7c'];
@@ -1998,59 +2045,205 @@
       return c.toDataURL('image/jpeg', 0.85);
     }
 
+    /* Rich illustrated scene paintings (softly blurred so imagery stands out clearly) */
     function bakeEventScene(type) {
-      const c = mkCanvas(240, 300);
+      const w = 280, h = 360;
+      const c = mkCanvas(w, h);
       const ctx = c.getContext('2d');
-      const palettes = {
-        matapujan: ['#fbf2e3', '#e7cfab', '#b88c52'],
-        haldi: ['#fff7d4', '#f7cf54', '#e3911e'],
-        mehendi: ['#ebf5e8', '#a3c99b', '#4d8252'],
-        sangeet: ['#f8e6f3', '#cf8cb9', '#793982'],
-        pheras: ['#fdeae6', '#de817a', '#8c2332']
-      };
-      const p = palettes[type] || palettes.pheras;
-      const g = ctx.createLinearGradient(0, 0, 240, 300);
-      g.addColorStop(0, p[0]); g.addColorStop(0.55, p[1]); g.addColorStop(1, p[2]);
-      ctx.fillStyle = g;
-      ctx.fillRect(0, 0, 240, 300);
 
-      ctx.save();
-      ctx.globalAlpha = 0.48;
       if (type === 'haldi') {
-        for (let i = 0; i < 14; i++) {
-          ctx.fillStyle = i % 2 ? '#f39c12' : '#ffd147';
-          ctx.beginPath();
-          ctx.arc((i * 53) % 220 + 10, (i * 67) % 270 + 15, 16 + (i % 3) * 6, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      } else if (type === 'mehendi') {
-        ctx.strokeStyle = '#2d5a34';
-        ctx.lineWidth = 3;
-        for (let r = 22; r <= 96; r += 18) {
-          ctx.beginPath(); ctx.arc(120, 155, r, 0, Math.PI * 2); ctx.stroke();
-        }
-      } else if (type === 'sangeet') {
-        for (let i = 0; i < 14; i++) {
-          ctx.fillStyle = i % 2 ? '#ffd97d' : '#ff9cc4';
-          ctx.beginPath();
-          ctx.arc((i * 61) % 220 + 10, (i * 43) % 260 + 15, 7 + (i % 4) * 4, 0, Math.PI * 2);
-          ctx.fill();
-        }
-      } else if (type === 'pheras') {
-        ctx.strokeStyle = '#ffd98a';
-        ctx.lineWidth = 6;
-        ctx.beginPath(); ctx.arc(120, 150, 82, Math.PI, 0); ctx.stroke();
-        const fg = ctx.createRadialGradient(120, 220, 8, 120, 220, 68);
-        fg.addColorStop(0, '#fff3b0'); fg.addColorStop(0.5, '#f27c22'); fg.addColorStop(1, 'transparent');
-        ctx.fillStyle = fg; ctx.fillRect(40, 140, 160, 150);
-      } else {
-        const dg = ctx.createRadialGradient(120, 145, 10, 120, 145, 92);
-        dg.addColorStop(0, '#fff6d6'); dg.addColorStop(1, 'transparent');
-        ctx.fillStyle = dg; ctx.fillRect(0, 0, 240, 300);
-      }
-      ctx.restore();
+        // Sunlit warm courtyard backdrop + hanging marigold drapes + brass urli bowl
+        const g = ctx.createLinearGradient(0, 0, 0, h);
+        g.addColorStop(0, '#ffd859');
+        g.addColorStop(0.5, '#f5a623');
+        g.addColorStop(1, '#c96b12');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
 
-      return blurCanvasCrossBrowser(c, 5, false, 'jpeg');
+        // Soft sunlit white/cream canopy drapes at corners
+        ctx.fillStyle = 'rgba(255, 248, 220, 0.45)';
+        ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(95, 110, 0, 220); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(w, 0); ctx.quadraticCurveTo(w - 95, 110, w, 220); ctx.fill();
+
+        // Hanging marigold garlands (genda phool)
+        for (let sx = 28; sx <= w - 28; sx += 36) {
+          const len = sx % 72 === 28 ? 165 : 115;
+          for (let sy = 14; sy < len; sy += 20) {
+            ctx.fillStyle = (sy / 20) % 2 === 0 ? '#ff7b00' : '#ffe135';
+            ctx.beginPath(); ctx.arc(sx, sy, 12, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = '#d95300';
+            ctx.beginPath(); ctx.arc(sx, sy, 4, 0, Math.PI * 2); ctx.fill();
+          }
+        }
+        // Brass urli bowl with turmeric & floating blossoms at bottom
+        const ug = ctx.createRadialGradient(w / 2, 298, 12, w / 2, 305, 86);
+        ug.addColorStop(0, '#ffe89c'); ug.addColorStop(0.6, '#c88c28'); ug.addColorStop(1, '#6e4308');
+        ctx.fillStyle = ug;
+        ctx.beginPath(); ctx.ellipse(w / 2, 305, 82, 34, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#ffb703';
+        ctx.beginPath(); ctx.ellipse(w / 2, 294, 68, 18, 0, 0, Math.PI * 2); ctx.fill();
+        [[115, 292], [142, 288], [168, 294]].forEach(([fx, fy]) => {
+          ctx.fillStyle = '#fff5d6';
+          ctx.beginPath(); ctx.arc(fx, fy, 7, 0, Math.PI * 2); ctx.fill();
+        });
+      } else if (type === 'mehendi') {
+        // Lush garden pavilion + emerald foliage + intricate golden henna mandala + fairy lights
+        const g = ctx.createLinearGradient(0, 0, w, h);
+        g.addColorStop(0, '#275938');
+        g.addColorStop(0.5, '#3e7c4d');
+        g.addColorStop(1, '#1c4028');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+
+        // Warm golden fairy lights canopy
+        for (let i = 0; i < 24; i++) {
+          const lx = (i * 47) % (w - 20) + 10;
+          const ly = (i * 29) % 130 + 12;
+          const lg = ctx.createRadialGradient(lx, ly, 1, lx, ly, 14);
+          lg.addColorStop(0, 'rgba(255, 245, 190, 0.95)');
+          lg.addColorStop(1, 'transparent');
+          ctx.fillStyle = lg;
+          ctx.beginPath(); ctx.arc(lx, ly, 14, 0, Math.PI * 2); ctx.fill();
+        }
+        // Botanical palm / jasmine leaves around borders
+        ctx.fillStyle = 'rgba(130, 196, 128, 0.45)';
+        for (let i = 0; i < 10; i++) {
+          ctx.save();
+          ctx.translate(i < 5 ? 16 : w - 16, 40 + (i % 5) * 68);
+          ctx.rotate(i < 5 ? 0.45 : -0.45);
+          ctx.beginPath(); ctx.ellipse(0, 0, 44, 16, 0, 0, Math.PI * 2); ctx.fill();
+          ctx.restore();
+        }
+        // Golden henna mandala centerpiece
+        ctx.save();
+        ctx.translate(w / 2, 210);
+        ctx.strokeStyle = 'rgba(244, 214, 140, 0.72)';
+        ctx.lineWidth = 3;
+        [36, 62, 88].forEach((r) => {
+          ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.stroke();
+        });
+        for (let p = 0; p < 12; p++) {
+          const a = (p / 12) * Math.PI * 2;
+          ctx.fillStyle = 'rgba(244, 214, 140, 0.52)';
+          ctx.beginPath();
+          ctx.ellipse(Math.cos(a) * 52, Math.sin(a) * 52, 16, 8, a, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      } else if (type === 'sangeet') {
+        // Starry royal violet ballroom + vibrant pink/gold spotlights + dancing couple silhouette
+        const g = ctx.createLinearGradient(0, 0, w, h);
+        g.addColorStop(0, '#2e1042');
+        g.addColorStop(0.52, '#6e236c');
+        g.addColorStop(1, '#c43e7c');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+
+        // Sweeping stage spotlights
+        const sp1 = ctx.createLinearGradient(0, 0, w * 0.7, h * 0.8);
+        sp1.addColorStop(0, 'rgba(255, 224, 130, 0.42)');
+        sp1.addColorStop(1, 'transparent');
+        ctx.fillStyle = sp1;
+        ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(190, h); ctx.lineTo(90, h); ctx.closePath(); ctx.fill();
+
+        const sp2 = ctx.createLinearGradient(w, 0, w * 0.3, h * 0.8);
+        sp2.addColorStop(0, 'rgba(255, 130, 200, 0.42)');
+        sp2.addColorStop(1, 'transparent');
+        ctx.fillStyle = sp2;
+        ctx.beginPath(); ctx.moveTo(w, 0); ctx.lineTo(185, h); ctx.lineTo(85, h); ctx.closePath(); ctx.fill();
+
+        // Sparkling stage bokeh orbs
+        for (let i = 0; i < 20; i++) {
+          ctx.fillStyle = i % 2 ? 'rgba(255, 226, 138, 0.65)' : 'rgba(255, 148, 208, 0.58)';
+          ctx.beginPath();
+          ctx.arc((i * 59) % (w - 20) + 10, (i * 41) % 210 + 16, 5 + (i % 4) * 4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        // Dancing couple silhouette (twirling lehenga & sherwani)
+        ctx.fillStyle = 'rgba(32, 8, 42, 0.65)';
+        // Dancer 1
+        ctx.beginPath(); ctx.arc(108, 224, 13, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(92, 345); ctx.lineTo(100, 244); ctx.lineTo(122, 244); ctx.lineTo(126, 345); ctx.fill();
+        // Dancer 2 (twirling skirt)
+        ctx.beginPath(); ctx.arc(172, 232, 12, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(166, 250); ctx.lineTo(220, 345); ctx.lineTo(124, 345); ctx.closePath(); ctx.fill();
+        // Raised joined hands
+        ctx.strokeStyle = 'rgba(32, 8, 42, 0.65)';
+        ctx.lineWidth = 6;
+        ctx.beginPath(); ctx.moveTo(114, 254); ctx.quadraticCurveTo(140, 202, 166, 252); ctx.stroke();
+      } else if (type === 'pheras') {
+        // Grand crimson & gold floral mandap + glowing sacred havan fire
+        const g = ctx.createLinearGradient(0, 0, 0, h);
+        g.addColorStop(0, '#5a1120');
+        g.addColorStop(0.52, '#9c2233');
+        g.addColorStop(1, '#3d0c16');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+
+        // Floral mandap canopy & columns
+        ctx.fillStyle = '#c9a35b';
+        ctx.fillRect(22, 48, 16, h - 48);
+        ctx.fillRect(w - 38, 48, 16, h - 48);
+        ctx.strokeStyle = '#f2cf7c';
+        ctx.lineWidth = 7;
+        ctx.beginPath();
+        ctx.moveTo(30, 125); ctx.quadraticCurveTo(w / 2, 12, w - 30, 125); ctx.stroke();
+
+        // Red & marigold floral garlands across mandap arch
+        for (let t = 0; t <= 1; t += 0.08) {
+          const x = (1 - t) * (1 - t) * 30 + 2 * (1 - t) * t * (w / 2) + t * t * (w - 30);
+          const y = (1 - t) * (1 - t) * 125 + 2 * (1 - t) * t * 12 + t * t * 125;
+          ctx.fillStyle = Math.round(t * 12) % 2 ? '#ff9f1c' : '#e63946';
+          ctx.beginPath(); ctx.arc(x, y, 11, 0, Math.PI * 2); ctx.fill();
+        }
+        // Sacred havan agni glow & flame
+        const fg = ctx.createRadialGradient(w / 2, 286, 8, w / 2, 286, 95);
+        fg.addColorStop(0, 'rgba(255, 248, 196, 0.98)');
+        fg.addColorStop(0.45, 'rgba(255, 146, 36, 0.72)');
+        fg.addColorStop(1, 'transparent');
+        ctx.fillStyle = fg; ctx.fillRect(20, 180, w - 40, 180);
+
+        ctx.fillStyle = '#ff7b00';
+        ctx.beginPath();
+        ctx.moveTo(w / 2, 224);
+        ctx.bezierCurveTo(w / 2 + 34, 264, w / 2 + 26, 310, w / 2, 315);
+        ctx.bezierCurveTo(w / 2 - 26, 310, w / 2 - 34, 264, w / 2, 224);
+        ctx.fill();
+        ctx.fillStyle = '#fff5b8';
+        ctx.beginPath();
+        ctx.moveTo(w / 2, 248);
+        ctx.bezierCurveTo(w / 2 + 16, 274, w / 2 + 12, 304, w / 2, 308);
+        ctx.bezierCurveTo(w / 2 - 12, 304, w / 2 - 16, 274, w / 2, 248);
+        ctx.fill();
+      } else {
+        // Mata Pujan: warm sandstone temple alcove + glowing brass diyas + mango-leaf toran
+        const g = ctx.createLinearGradient(0, 0, 0, h);
+        g.addColorStop(0, '#c7975c');
+        g.addColorStop(0.5, '#e8cda5');
+        g.addColorStop(1, '#8c5332');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+
+        // Top mango-leaf & marigold toran
+        for (let x = 18; x < w; x += 26) {
+          ctx.fillStyle = '#3f6e40';
+          ctx.beginPath(); ctx.ellipse(x, 26, 9, 20, 0, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = '#f5951d';
+          ctx.beginPath(); ctx.arc(x + 13, 18, 9, 0, Math.PI * 2); ctx.fill();
+        }
+        // Warm brass diya lamps glowing along lower third
+        [[72, 286], [140, 268], [208, 286]].forEach(([dx, dy]) => {
+          const glow = ctx.createRadialGradient(dx, dy - 18, 3, dx, dy - 18, 48);
+          glow.addColorStop(0, 'rgba(255, 248, 200, 0.95)');
+          glow.addColorStop(0.5, 'rgba(255, 174, 52, 0.55)');
+          glow.addColorStop(1, 'transparent');
+          ctx.fillStyle = glow;
+          ctx.beginPath(); ctx.arc(dx, dy - 18, 48, 0, Math.PI * 2); ctx.fill();
+
+          ctx.fillStyle = '#b06d1a';
+          ctx.beginPath(); ctx.ellipse(dx, dy, 24, 10, 0, 0, Math.PI); ctx.fill();
+          ctx.fillStyle = '#fff5b8';
+          ctx.beginPath(); ctx.ellipse(dx, dy - 16, 7, 14, 0, 0, Math.PI * 2); ctx.fill();
+        });
+      }
+
+      // Gentle artistic blur (radius 3) so the illustrated scene stays unmistakably recognizable
+      return blurCanvasCrossBrowser(c, 3, false, 'jpeg');
     }
 
     function bakeStoryArt(idx) {
@@ -2430,14 +2623,13 @@
     }
 
     /* ============================================================
-       SAVE THE DATE: PULL-TO-REVEAL + POST-REVEAL TIMER + CALENDAR
+       SAVE THE DATE: PULL-TO-REVEAL + POST-REVEAL TIMER + SINGLE BUTTON
        ============================================================ */
     function initSaveTheDate() {
       const paper = document.getElementById('scroll-paper');
       const tassel = document.getElementById('tassel-zone');
       const hint = document.getElementById('pull-hint');
       const postReveal = document.getElementById('save-date-post-reveal');
-      const gcalBtn = document.getElementById('gcal-btn');
       const calBtn = document.getElementById('add-cal-btn');
       const start = new Date(WEDDING_CONFIG.wedding.isoDateTime);
       const end = new Date(start.getTime() + 4 * 3600000);
@@ -2451,7 +2643,7 @@
         details: `Pheras at ${WEDDING_CONFIG.wedding.pherasTime}. Maps: ${WEDDING_CONFIG.wedding.mapsUrl}`,
         location: WEDDING_CONFIG.wedding.fullAddress
       });
-      gcalBtn.href = `https://calendar.google.com/calendar/render?${gcalParams.toString()}`;
+      const gcalFallbackUrl = `https://calendar.google.com/calendar/render?${gcalParams.toString()}`;
 
       let revealed = false, dragging = false, startY = 0, pulled = 0;
       let sectionVisible = true;
@@ -2483,7 +2675,6 @@
         setTimeout(() => {
           postReveal.classList.add('revealed');
           postReveal.setAttribute('aria-hidden', 'false');
-          gcalBtn.setAttribute('tabindex', '0');
           calBtn.setAttribute('tabindex', '0');
           updateCountdown();
           setInterval(updateCountdown, 1000);
@@ -2534,7 +2725,14 @@
         }, { threshold: 0.05 }).observe(document.getElementById('sec-save-date'));
       }
 
+      // Single smart "Add to Calendar" button
       calBtn.onclick = () => {
+        const ua = navigator.userAgent || '';
+        const isAndroidInApp = /Android/i.test(ua) && /(FBAN|FBAV|Instagram|WhatsApp|wv)/i.test(ua);
+        if (isAndroidInApp) {
+          window.open(gcalFallbackUrl, '_blank', 'noopener');
+          return;
+        }
         const ics = [
           'BEGIN:VCALENDAR',
           'VERSION:2.0',
@@ -2557,9 +2755,9 @@
           a.click();
           a.remove();
           setTimeout(() => URL.revokeObjectURL(url), 1500);
-          showToast('Calendar invite (.ics) ready');
+          showToast('Calendar invite downloaded');
         } catch (e) {
-          window.open(gcalBtn.href, '_blank', 'noopener');
+          window.open(gcalFallbackUrl, '_blank', 'noopener');
         }
       };
     }
@@ -2724,7 +2922,7 @@
 
       populateContent();
       MusicPlayer.init();
-      setProg(22);
+      setProg(20);
 
       // 1. Pre-render raster art + iOS-compatible premultiplied bokeh once
       ASSETS.ganesh = bakeGanesh();
@@ -2736,7 +2934,7 @@
       ASSETS.garland = WEDDING_CONFIG.assets.garlandUrl || bakeMarigoldGarland();
       ASSETS.petalCanvas = bakePetalSprite();
       ASSETS.cardBg = bakeCardBackground();
-      setProg(55);
+      setProg(48);
 
       document.getElementById('card-backdrop').style.backgroundImage = `url(${ASSETS.cardBg})`;
       document.querySelectorAll('[data-ganesh]').forEach((el) => { el.src = ASSETS.ganesh; });
@@ -2761,6 +2959,24 @@
           return { url: artUrl, img: artRes ? artRes.img : null, corsOk: true };
         })
       );
+
+      // Prepare blurred event scene backgrounds (supports optional custom bgImage URLs)
+      const eventBgs = await Promise.all(
+        WEDDING_CONFIG.functions.map(async (fn) => {
+          if (fn.bgImage) {
+            const res = await loadImageSafe(fn.bgImage, true, 2200);
+            if (res && res.img && res.corsOk) {
+              try {
+                const ec = mkCanvas(240, 310);
+                ec.getContext('2d').drawImage(res.img, 0, 0, 240, 310);
+                return { url: blurCanvasCrossBrowser(ec, 4, false, 'jpeg'), needsCssBlur: false };
+              } catch (e) {}
+            }
+            if (res) return { url: fn.bgImage, needsCssBlur: true };
+          }
+          return { url: bakeEventScene(fn.id), needsCssBlur: false };
+        })
+      );
       setProg(78);
 
       const heroImgEl = document.getElementById('hero-bg-photo');
@@ -2769,8 +2985,7 @@
       if (firstPhoto && firstPhoto.img && firstPhoto.corsOk) {
         try {
           const hc = mkCanvas(240, 320);
-          const hctx = hc.getContext('2d');
-          hctx.drawImage(firstPhoto.img, 0, 0, 240, 320);
+          hc.getContext('2d').drawImage(firstPhoto.img, 0, 0, 240, 320);
           heroImgEl.src = blurCanvasCrossBrowser(hc, 6, false, 'jpeg');
           heroBaked = true;
         } catch (e) {
@@ -2783,20 +2998,22 @@
       }
 
       // 3. Build 3D Festivities & Story Carousels
-      initCarousel('fest-carousel', 'fest-stage', 'fest-dots', WEDDING_CONFIG.functions, (fn) => {
+      initCarousel('fest-carousel', 'fest-stage', 'fest-dots', WEDDING_CONFIG.functions, (fn, i) => {
         const card = document.createElement('div');
         card.className = 'c-card';
-        const sceneUrl = bakeEventScene(fn.id);
+        const bgInfo = eventBgs[i];
         card.innerHTML = `
-          <img class="event-bg" src="${sceneUrl}" alt="" />
+          <img class="event-bg${bgInfo.needsCssBlur ? ' fallback-blur' : ''}" src="${bgInfo.url}" alt="" />
           <div class="event-scrim"></div>
           <div class="event-content">
             <div class="event-icon-wrap">${eventIconSvg(fn.id)}</div>
-            <div><div class="event-name">${fn.name}</div></div>
-            <div class="event-meta">
-              <div><strong>${fn.date}</strong></div>
-              <div>${fn.time}</div>
-              <div>${fn.place}</div>
+            <div class="event-glass-box">
+              <div class="event-name">${fn.name}</div>
+              <div class="event-meta">
+                <div><strong>${fn.date}</strong></div>
+                <div>${fn.time}</div>
+                <div>${fn.place}</div>
+              </div>
             </div>
             <div class="dress-row">
               <span class="swatch" style="background:${fn.swatch}"></span>
@@ -2850,7 +3067,7 @@
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openBook(); }
       });
 
-      // 5. Scroll Reveal + Off-screen Animation Pausing (with safe fallback)
+      // 5. Scroll Reveal + Off-screen Animation Pausing
       if ('IntersectionObserver' in window) {
         const revObs = new IntersectionObserver((entries) => {
           entries.forEach((en) => {
