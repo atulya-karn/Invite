@@ -29,7 +29,6 @@
     html, body {
       width: 100%;
       min-height: 100%;
-      /* Desktop/tablet outer backdrop around the centered 480px card column */
       background: radial-gradient(circle at 50% 25%, #f2e2df 0%, #e4cdcf 60%, #d8bcc1 100%);
       color: var(--ink);
       font-family: var(--font-body);
@@ -64,7 +63,6 @@
       box-shadow: 0 0 64px rgba(78, 19, 32, 0.16);
     }
 
-    /* Card-inspired architectural arch & fluted pillar backdrop (z: 0) */
     #card-backdrop {
       position: absolute;
       inset: 0;
@@ -446,7 +444,7 @@
     }
 
     /* ============================================================
-       2. FIRST PAGE (EXACTLY 1 SCREEN, SAFE ON SHORT IN-APP VIEWS)
+       2. FIRST PAGE (1 SCREEN, NEVER CUT EVEN IN WHATSAPP WEBVIEW)
        ============================================================ */
     #sec-hero {
       height: 100vh;
@@ -501,7 +499,6 @@
       opacity: 0.36;
       display: block;
     }
-    /* Fallback static blur ONLY if external photo URL has no CORS headers */
     .hero-bg-photo.fallback-blur {
       filter: blur(7px);
       -webkit-filter: blur(7px);
@@ -1233,7 +1230,7 @@
 </head>
 <body class="locked">
 
-  <!-- Centered 480px Fixed Stage Frame (keeps arch, pillars & roses aligned on all screens) -->
+  <!-- Centered 480px Fixed Stage Frame (keeps pillars & roses aligned on all screens) -->
   <div id="stage-frame" aria-hidden="true">
     <div id="card-backdrop"></div>
     <div id="ambient-roses">
@@ -1929,6 +1926,7 @@
       return c;
     }
 
+    /* Fluted ivory pillars + bottom filigree + pastel floral border (no background arch) */
     function bakeCardBackground() {
       const w = 480, h = 860;
       const c = mkCanvas(w, h);
@@ -1942,33 +1940,27 @@
       ctx.fillRect(0, 0, w, h);
 
       ctx.save();
-      ctx.strokeStyle = 'rgba(201, 163, 91, 0.22)';
-      ctx.fillStyle = 'rgba(255, 250, 247, 0.52)';
       ctx.lineWidth = 1.6;
 
       [20, w - 56].forEach((px) => {
-        ctx.fillRect(px, 160, 36, h - 220);
-        ctx.strokeRect(px, 160, 36, h - 220);
+        ctx.fillStyle = 'rgba(255, 250, 247, 0.52)';
+        ctx.strokeStyle = 'rgba(201, 163, 91, 0.22)';
+        ctx.fillRect(px, 66, 36, h - 126);
+        ctx.strokeRect(px, 66, 36, h - 126);
+
+        ctx.strokeStyle = 'rgba(182, 152, 145, 0.22)';
         for (let f = 8; f < 32; f += 8) {
           ctx.beginPath();
-          ctx.moveTo(px + f, 172);
-          ctx.lineTo(px + f, h - 72);
-          ctx.strokeStyle = 'rgba(182, 152, 145, 0.22)';
+          ctx.moveTo(px + f, 76);
+          ctx.lineTo(px + f, h - 70);
           ctx.stroke();
         }
-        ctx.fillStyle = 'rgba(246, 234, 226, 0.72)';
-        ctx.fillRect(px - 6, 146, 48, 16);
-        ctx.strokeStyle = 'rgba(201, 163, 91, 0.28)';
-        ctx.strokeRect(px - 6, 146, 48, 16);
-      });
 
-      ctx.beginPath();
-      ctx.moveTo(38, 166);
-      ctx.quadraticCurveTo(38, 44, w / 2, 40);
-      ctx.quadraticCurveTo(w - 38, 44, w - 38, 166);
-      ctx.strokeStyle = 'rgba(201, 163, 91, 0.34)';
-      ctx.lineWidth = 2.4;
-      ctx.stroke();
+        ctx.fillStyle = 'rgba(246, 234, 226, 0.72)';
+        ctx.strokeStyle = 'rgba(201, 163, 91, 0.28)';
+        ctx.fillRect(px - 6, 52, 48, 14);
+        ctx.strokeRect(px - 6, 52, 48, 14);
+      });
 
       ctx.fillStyle = 'rgba(201, 163, 91, 0.14)';
       ctx.fillRect(0, h - 40, w, 40);
@@ -1979,7 +1971,6 @@
       }
       ctx.restore();
 
-      // Soft pastel floral border blurred via cross-browser downscale/upscale
       const fl = mkCanvas(240, 430);
       const fctx = fl.getContext('2d');
       const p1 = ['#fff9f7', '#efd5dc', '#cfa3b2', '#9e6b7c'];
@@ -1993,7 +1984,6 @@
         [14, 396, 13, p2], [226, 396, 13, p1]
       ].forEach(([x, y, r, pal]) => drawPainterlyRose(fctx, x, y, r, pal));
 
-      // Fast smooth downsample -> upsample blur (works on every iOS & Android)
       const sm = mkCanvas(96, 172);
       const sctx = sm.getContext('2d');
       sctx.imageSmoothingEnabled = true;
@@ -2116,7 +2106,6 @@
       return icons[id] || icons.pheras;
     }
 
-    /* CORS-safe photo loader: tries anonymous CORS first, falls back to standard img load */
     function loadImageSafe(url, tryCors, timeoutMs = 2500) {
       return new Promise((resolve) => {
         if (!url) return resolve(null);
@@ -2455,7 +2444,6 @@
       const targetMs = start.getTime();
       const fmtUtc = (d) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
 
-      // Build universal Google Calendar link (works reliably in WhatsApp/Instagram WebViews)
       const gcalParams = new URLSearchParams({
         action: 'TEMPLATE',
         text: `${WEDDING_CONFIG.couple.groom} & ${WEDDING_CONFIG.couple.bride} Wedding`,
